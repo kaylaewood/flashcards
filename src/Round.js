@@ -4,6 +4,7 @@ class Round {
   constructor(deck) {
     this.turns = 0;
     this.deck = deck;
+    this.incorrectGuesses = [];
   }
 
   returnCurrentCard(deck) {
@@ -14,16 +15,22 @@ class Round {
 
   takeTurn(guess) {
     this.turns++;
-    var turn = new Turn(this.returnCurrentCard(this.deck), guess);
-    return turn;
+    var card = this.returnCurrentCard(this.deck);
+    var turn = new Turn(card, guess);
+    if (turn.evaluateGuess() === false) {
+      this.incorrectGuesses.push(card.id);
+    }
+    return turn.giveFeedback();
   }
 
   calculatePercentCorrect() {
-
+    var numberCorrect = this.turns - this.incorrectGuesses.length;
+    var percentCorrect = numberCorrect / this.turns * 100;
+    return percentCorrect;
   }
 
   endRound() {
-
+    return `** Round over! ** You answered ${this.calculatePercentCorrect()}% of the questions correctly!`
   }
 
 };

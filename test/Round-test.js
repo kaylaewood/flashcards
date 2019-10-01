@@ -50,23 +50,26 @@ describe('Round', function() {
     expect(round.turns).to.equal(3);
   });
 
-  it('takeTurn should instantiate a new turn instance', function() {
+  it('takeTurn should update incorrectGuesses', function() {
     const card1 = new Card(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');
     const card2 = new Card(14, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
     const card3 = new Card(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
     const deck = new Deck([card1, card2, card3]);
     const round = new Round(deck);
-    expect(round.takeTurn('object')).to.be.an.instanceof(Turn);
+    round.takeTurn('sea otter');
+    expect(round.incorrectGuesses).to.deep.equal([]);
+    round.takeTurn('spleen');
+    expect(round.incorrectGuesses).to.deep.equal([14]);
   });
 
-  it('takeTurn should create new current card', function() {
+  it('takeTurn should give feedback', function() {
     const card1 = new Card(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');
     const card2 = new Card(14, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
     const card3 = new Card(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
     const deck = new Deck([card1, card2, card3]);
     const round = new Round(deck);
-    expect(round.takeTurn('object').card).to.equal(card1);
-    expect(round.takeTurn('object').card).to.equal(card2);
+    expect(round.takeTurn('sea otter')).to.equal('correct!');
+    expect(round.takeTurn('spleen')).to.equal('incorrect!');
   });
 
   it('calculatePercentCorrect should be a function', function() {
@@ -74,16 +77,37 @@ describe('Round', function() {
     expect(round.calculatePercentCorrect).to.be.a('function');
   });
 
+  it('calculatePercentCorrect should calculate percent correct', function() {
+    const card1 = new Card(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');
+    const card2 = new Card(14, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
+    const card3 = new Card(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
+    const card4 = new Card(12, 'What is Kayla\'s cat\'s name?', ['Cinnamon', 'Pepper', 'Paprika'], 'Pepper');
+    const deck = new Deck([card1, card2, card3, card4]);
+    const round = new Round(deck);
+    round.takeTurn('sea otter');
+    round.takeTurn('spleen');
+    round.takeTurn('Lex');
+    round.takeTurn('Pepper');
+    expect(round.calculatePercentCorrect()).to.equal(50);
+  });
+
   it('endRound should be a function', function() {
     const round = new Round();
     expect(round.endRound).to.be.a('function');
   });
 
-});
+  it('endRound should print message', function() {
+    const card1 = new Card(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');
+    const card2 = new Card(14, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
+    const card3 = new Card(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
+    const card4 = new Card(12, 'What is Kayla\'s cat\'s name?', ['Cinnamon', 'Pepper', 'Paprika'], 'Pepper');
+    const deck = new Deck([card1, card2, card3, card4]);
+    const round = new Round(deck);
+    round.takeTurn('sea otter');
+    round.takeTurn('spleen');
+    round.takeTurn('Fitzgerald');
+    round.takeTurn('Pepper');
+    expect(round.endRound()).to.equal('** Round over! ** You answered 75% of the questions correctly!');
+  });
 
-// takeTurn: method that updates turns count, evaluates guesses, gives feedback, and stores ids of incorrect guesses
-  // The next card becomes current card
-  // Guess is evaluated/recorded. Incorrect guesses will be stored (via the id) in an array of incorrectGuesses
-  // Feedback is returned regarding whether the guess is incorrect or correct
-// calculatePercentCorrect: method that calculates and returns the percentage of correct guesses
-// endRound: method that prints the following to the console: ‘** Round over! ** You answered <>% of the questions correctly!’
+});
