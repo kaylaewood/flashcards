@@ -1,13 +1,21 @@
+const Turn = require('../src/Turn');
+
 class Round {
-  constructor() {
+  constructor(deck) {
+    this.turns = 0;
+    this.deck = deck;
   }
 
   returnCurrentCard(deck) {
-    return deck.cards[0];
+    this.currentCard = deck.cards[0];
+    deck.cards.shift();
+    return this.currentCard;
   }
 
-  takeTurn() {
-
+  takeTurn(guess) {
+    this.turns++;
+    var turn = new Turn(this.returnCurrentCard(this.deck), guess);
+    return turn;
   }
 
   calculatePercentCorrect() {
