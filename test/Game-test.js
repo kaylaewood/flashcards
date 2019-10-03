@@ -2,9 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const Game = require('../src/Game');
-const Turn = require('../src/Turn');
 const Round = require('../src/Round');
-const Deck = require('../src/Deck');
 const Card = require('../src/Card');
 const data = require('../src/data');
 const prototypeQuestions = data.prototypeData;
@@ -12,7 +10,6 @@ const prototypeQuestions = data.prototypeData;
 describe('Game', function() {
 
   it('Game should be a function', function() {
-    const game = new Game();
     expect(Game).to.be.a('function');
   });
 
