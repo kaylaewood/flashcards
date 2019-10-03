@@ -56,6 +56,15 @@ describe('Round', function() {
     expect(round.currentCard).to.equal(card1);
   });
 
+  it('should store start time', function() {
+    const card1 = new Card(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');
+    const card2 = new Card(14, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
+    const card3 = new Card(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
+    const deck = new Deck([card1, card2, card3]);
+    const round = new Round(deck);
+    expect(round.startTime).to.equal(Date.now());
+  });
+
   describe('returnCurrentCard', function() {
 
     it('should be a function', function() {
@@ -153,6 +162,29 @@ describe('Round', function() {
       round.takeTurn('Lex');
       round.takeTurn('Pepper');
       expect(round.calculatePercentCorrect()).to.equal(50);
+    });
+
+  });
+
+  describe('calculateTime', function() {
+
+    it('should be a function', function() {
+      const card1 = new Card(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');
+      const card2 = new Card(14, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
+      const card3 = new Card(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
+      const deck = new Deck([card1, card2, card3]);
+      const round = new Round(deck);
+      expect(round.calculateTime).to.be.a('function');
+    });
+
+    it('should return a number', function() {
+      const card1 = new Card(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');
+      const card2 = new Card(14, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
+      const card3 = new Card(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
+      const card4 = new Card(12, 'What is Kayla\'s cat\'s name?', ['Cinnamon', 'Pepper', 'Paprika'], 'Pepper');
+      const deck = new Deck([card1, card2, card3, card4]);
+      const round = new Round(deck);
+      expect(round.calculateTime()).to.be.a('number');
     });
 
   });
