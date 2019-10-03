@@ -7,14 +7,16 @@ const Round = require('../src/Round');
 
 class Game {
   constructor() {
-    this.currentRound = null;;
+    this.currentRound = null;
+    this.cards = [];
   }
 
   start() {
-    const card1 = new Card(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');
-    const card2 = new Card(14, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
-    const card3 = new Card(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
-    const deck = new Deck([card1, card2, card3]);
+    for (var i = 0; i < prototypeQuestions.length; i++) {
+      var card = new Card(prototypeQuestions[i].id, prototypeQuestions[i].question, prototypeQuestions[i].answers, prototypeQuestions[i].correctAnswer);
+      this.cards.push(card);
+    }
+    const deck = new Deck(this.cards);
     const round = new Round(deck);
     this.currentRound = round;
     this.printMessage(deck, round);
