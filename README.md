@@ -11,4 +11,8 @@ The FlashCards game is a game playable through the Command Line Interface. I was
 3. Select your answers by typing the number OR by using your arrow and return keys.
 4. Enjoy! 
 
+## Game Play
 ![flash cards gif](https://media.giphy.com/media/Qs1yKe4qpNTr4XOYt7/giphy.gif)
+
+## Game End
+![flash cards end gif](https://media.giphy.com/media/Jp3tXQTmmyD1iccUlO/giphy.gif)
